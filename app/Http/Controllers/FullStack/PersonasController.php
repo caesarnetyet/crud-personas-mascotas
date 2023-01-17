@@ -9,11 +9,41 @@ use Illuminate\Support\Facades\Validator;
 
 class PersonasController extends Controller
 {
-    function index(){
+    function index(Request $request){
         $personas = Persona::withCount('mascotas')->get();
-        
-        return view('welcome', ["clientes" => $personas]);
+        $persona = Persona::find($request->persona);
+        if ($persona != null)
+            return view('welcome', ["personas" => $personas, "persona" => $persona]);
+        return view('welcome', ["clientes" => $personas, "persona" => null]);
     }
+
+    function update_view($persona_id){
+        $persona = Persona::findOrFail($persona_id);
+        return view('person.editar', ["cliente" => $persona]);
+    }
+
+
+
+    function update(Request $request){
+
+        $validate = Validator::make($request->all(), [
+            'name' => 'string',
+            'phone' => 'string | max:10',
+            'email' => 'email',
+        ]);
+        if($validate->fails()){
+            return redirect()->route('/')->withErrors($validate->errors());
+        }
+
+        $persona = Persona::find($request->persona_id);
+
+        foreach($validate->validated() as $key => $value){
+            $persona->$key = $value;
+        }
+        $persona->save();
+        return redirect()->route('/');
+    }
+
 
     function create(Request $request){
         $validate = Validator::make($request->all(), [
@@ -22,10 +52,10 @@ class PersonasController extends Controller
             'phone' => 'required | numeric | digits_between:7,10',
         ]);
         if($validate->fails()){
-            
+
             return redirect()->route('/cliente/agregar')->withErrors($validate->errors());
         }
-        
+
         $persona = new Persona();
         $persona->name = $request->name;
         $persona->email = $request->email;
@@ -33,5 +63,10 @@ class PersonasController extends Controller
         $persona->save();
         return redirect()->route('/');
     }
-    
+
+    function delete($persona_id){
+        $persona = Persona::find($persona_id);
+        $persona->delete();
+        return redirect()->route('/');
+    }
 }

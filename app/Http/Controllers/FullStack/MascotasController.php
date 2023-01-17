@@ -10,17 +10,22 @@ use Illuminate\Support\Facades\Validator;
 
 class MascotasController extends Controller
 {
-    function index(Request $request){
-        if($request->cliente != null)
-            return view('pets.form', ["cliente" => $request->cliente]);
+
+
+    function index(){
         $personas = Persona::all();
+
         if (count($personas) == 0)
-            return redirect()->route('/cliente/agregar')
-                             ->withErrors(['clientes' =>'Para registrar una mascota, 
-                             primero debe registrar un cliente']);
-        
+            return redirect()->route('/')->withErrors(["notFound"=>"Para agregar una mascota, debes de registrar un cliente"]);
+
         return view('pets.form', ["clientes" => $personas]);
     }
+
+    function mostrar($persona_id){
+        $mascotas = Mascota::where('persona_id', $persona_id)->get();
+        return view('pets/list', ["mascotas" => $mascotas]);
+    }
+
     function create(Request $request){
         $validate = Validator::make($request->all(), [
             'name' => 'required',
@@ -29,12 +34,12 @@ class MascotasController extends Controller
             'sex' => 'required',
         ]);
         if($validate->fails()){
-            
+
             return redirect()->route('/mascota/agregar')->withErrors($validate->errors());
         }
         $cliente = Persona::find($request->cliente);
         $mascota = new Mascota();
-        
+
         $mascota->name = $request->name;
         $mascota->breed = $request->breed;
         $mascota->color = $request->color;

@@ -9,6 +9,12 @@
 </head>
 
 <body>
+    @error('notFound')
+        <div class="text-center text-white bg-orange-500 p-3 text-2xl">
+            {{ $message }}
+        </div>
+    @enderror
+
     <header class="bg-slate-800 p-3 text-center text-white">
         <h1 class="text-3xl font-bold underline">Hello!</h1>
     </header>
@@ -31,15 +37,18 @@
                         <td class="p-3">{{$cliente->name}}</td>
                         <td class="p-3">{{$cliente->email}}</td>
                         <td class="p-3">{{$cliente->mascotas_count}}</td>
-                        <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="#">Ver Mascotas</a></td>
-                        <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="#">Editar</a></td>
-                        <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="#">Eliminar</a></td>
-                    </tr>
+                        @if($cliente->mascotas_count > 0)
+                            <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="/mascota/ver/{{$cliente->id}}">Ver Mascotas</a></td>
+
+                        @endif
+                        <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="/cliente/modificar/{{$cliente->id}}">Editar</a></td>
+                        <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="/cliente/eliminar/{{$cliente->id}}">Eliminar</a></td>
+
                     @endforeach
                 </thead>
                 <tbody>
-                   
-                   
+
+
                 </tbody>
             </table>
             <form class="px-20 py-5 bg-slate-700  text-white" method="get" action="/mascota/agregar">

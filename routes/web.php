@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\FullStack\MascotasController;
-use App\Http\Controllers\FullStack\PersonasController;
+use App\Http\Controllers\ProfileController;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,16 +16,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [PersonasController::class, 'index'])->name('/');
-
-Route::prefix('/cliente')->group(function(){
-    Route::get('/agregar', function () {
-        return view('person.form');
-    })->name('/cliente/agregar');
-    Route::post('/agregar', [PersonasController::class, 'create']);
+Route::get('/', function () {
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
 
-Route::prefix('/mascota')->group(function(){
-    Route::get('/agregar', [MascotasController::class, 'index'])->name('/mascota/agregar');
-    Route::post('/agregar', [MascotasController::class, 'create']);
+Route::get('/dashboard', function () {
+    return Inertia::render('Dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+require __DIR__.'/auth.php';

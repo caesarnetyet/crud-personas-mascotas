@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('breed');
             $table->string('color');
             $table->string('sex');
-            $table->foreignId('persona_id')->constrained('personas');
+            $table->foreignId('persona_id')->constrained('personas')->cascadeOnDelete();
             $table->timestamps();
         });
     }
