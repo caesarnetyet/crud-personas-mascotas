@@ -3,6 +3,7 @@
 use App\Http\Controllers\FullStack\MascotasController;
 use App\Http\Controllers\FullStack\PersonasController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Vue\VuePersonaController;
 use Faker\Provider\Person;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -40,3 +41,14 @@ Route::prefix('/mascota')->group(function () {
     Route::post('/agregar', [MascotasController::class, 'create'])->name('create');
 });
 
+
+Route::prefix('/vue')->group(function(){
+    Route::get('/',[VuePersonaController::class,'index'])->name('vue.index');
+    Route::prefix('/persona')->group(function () {
+        Route::get('/agregar', [VuePersonaController::class,'create'])->name('vue.persona.create');
+        Route::post('/agregar', [VuePersonaController::class,'store'])->name('vue.persona.store');
+        Route::get('/modificar/{persona_id}', [VuePersonaController::class,'edit'])->name('vue.persona.edit');
+        Route::put('/modificar/{persona_id}', [VuePersonaController::class,'update'])->name('vue.persona.update');
+        Route::get('/eliminar/{persona_id}', [VuePersonaController::class,'delete'])->name('vue.persona.delete');
+    });
+});
