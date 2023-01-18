@@ -20,7 +20,13 @@
 </header>
 <main>
 
-    <div class="mt-5 gap-3 flex flex-wrap justify-around">
+    <div class="mt-5 gap-3 flex flex-wrap flex-col mx-20 justify-around">
+        @if($mascotas->count() === 0)
+        <div class="text-center text-white bg-orange-500 p-3 text-2xl">
+            No hay mascotas registradas
+        </div>
+
+        @endif
         <table class="text-center">
             <thead >
             <tr class="border-b-2 bg-slate-600 text-white">
@@ -32,14 +38,15 @@
 
             </thead>
             <tbody>
+
             @foreach($mascotas as $mascota)
                 <tr class="border-b-2 border-slate-600">
                     <td class="p-3">{{$mascota->name}}</td>
                     <td class="p-3">{{$mascota->breed}}</td>
                     <td class="p-3">{{$mascota->color}}</td>
 
-                    <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="#">Editar</a></td>
-                    <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="/mascota/eliminar/{{$mascota->id}}">Eliminar</a></td>
+                    <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="/mascota/modificar/{{$mascota->id}}">Editar</a></td>
+                    <td class="p-3"><a class="bg-slate-500 text-white p-2 rounded-sm" href="/mascota/borrar/{{$mascota->id}}">Eliminar</a></td>
 
             @endforeach
 

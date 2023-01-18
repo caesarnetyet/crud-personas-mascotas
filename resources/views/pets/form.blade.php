@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    
+
 
     <header class="p-3 grid grid-cols-3 text-center ">
         <a class="  bg-slate-600 justify-self-start p-2 rounded-sm text-white text-xl" href="/">
@@ -72,7 +72,7 @@
             </select>
         </div>
         @else
-        <input type="hidden" name="cliente" value="{{ $cliente }}">
+        <input type="hidden" name="cliente" value="{{ $cliente->id }}">
         @endif
         <button class="block bg-green-500 mt-4 mx-auto text-white rounded-sm border-1 border-white p-3" type="submit">Agregar Cliente</button>
 

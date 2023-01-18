@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class PersonasController extends Controller
+
 {
+
     function index(Request $request){
         $personas = Persona::withCount('mascotas')->get();
         $persona = Persona::find($request->persona);
@@ -26,16 +28,14 @@ class PersonasController extends Controller
 
     function update(Request $request){
 
+        $persona = Persona::findOrFail($request->persona_id);
         $validate = Validator::make($request->all(), [
             'name' => 'string',
-            'phone' => 'string | max:10',
-            'email' => 'email',
-        ]);
-        if($validate->fails()){
-            return redirect()->route('/')->withErrors($validate->errors());
-        }
+            'phone' => 'numeric',
+            'email' => 'string',
 
-        $persona = Persona::find($request->persona_id);
+        ]);
+
 
         foreach($validate->validated() as $key => $value){
             $persona->$key = $value;
@@ -51,6 +51,7 @@ class PersonasController extends Controller
             'email' => 'required | email',
             'phone' => 'required | numeric | digits_between:7,10',
         ]);
+
         if($validate->fails()){
 
             return redirect()->route('/cliente/agregar')->withErrors($validate->errors());

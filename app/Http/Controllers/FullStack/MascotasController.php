@@ -10,9 +10,32 @@ use Illuminate\Support\Facades\Validator;
 
 class MascotasController extends Controller
 {
+    function update_view($persona_id){
+        $mascota = Mascota::findOrFail($persona_id);
+        return view('pets.editar', ["mascota" => $mascota]);
+    }
+    function update(Request $request){
+        $mascota = Mascota::findOrFail($request->mascota_id);
+        $validate = Validator::make($request->all(), [
+            'name' => 'string',
+            'breed' => 'string',
+            'color' => 'string',
+        ]);
+
+        foreach($validate->validated() as $key => $value){
+            $mascota->$key = $value;
+        }
+        $mascota->save();
+        return redirect()->route("pets.show", ["persona_id" => $mascota->persona_id]);
+    }
 
 
-    function index(){
+    function index(Request $request){
+
+        if($request->cliente != null){
+            $persona = Persona::find($request->cliente);
+            return view('pets.form', ["cliente" => $persona]);
+        }
         $personas = Persona::all();
 
         if (count($personas) == 0)
@@ -27,6 +50,7 @@ class MascotasController extends Controller
     }
 
     function create(Request $request){
+
         $validate = Validator::make($request->all(), [
             'name' => 'required',
             'breed' => 'required',
@@ -46,5 +70,11 @@ class MascotasController extends Controller
         $mascota->sex = $request->sex;
         $cliente->mascotas()->save($mascota);
         return redirect()->route('/');
+    }
+
+    function delete($mascota_id){
+        $mascota = Mascota::findOrFail($mascota_id);
+        $mascota->delete();
+        return back();
     }
 }
