@@ -43,12 +43,12 @@ Route::prefix('/mascota')->group(function () {
 
 
 Route::prefix('/vue')->group(function(){
-    Route::get('/',[VuePersonaController::class,'index'])->name('vue.index');
+    Route::get('/',[VuePersonaController::class,'index'])->name('vue');
     Route::prefix('/persona')->group(function () {
         Route::get('/agregar', [VuePersonaController::class,'create'])->name('vue.persona.create');
         Route::post('/agregar', [VuePersonaController::class,'store'])->name('vue.persona.store');
-        Route::get('/modificar/{persona_id}', [VuePersonaController::class,'edit'])->name('vue.persona.edit');
-        Route::put('/modificar/{persona_id}', [VuePersonaController::class,'update'])->name('vue.persona.update');
-        Route::get('/eliminar/{persona_id}', [VuePersonaController::class,'delete'])->name('vue.persona.delete');
+        Route::get('/modificar/{persona}', [VuePersonaController::class,'edit'])->name('vue.persona.edit');
+        Route::put('/modificar/{persona}', [VuePersonaController::class,'update'])->name('vue.persona.update');
+        Route::get('/eliminar/{persona}', [VuePersonaController::class,'delete'])->name('vue.persona.delete');
     });
 });

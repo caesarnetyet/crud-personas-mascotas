@@ -13,14 +13,19 @@ class VuePersonaController extends Controller
     //
     function index(){
         return Inertia::render('Bienvenido', [
-            'users' => Persona::all()->map(function ($user){
+            'clientes' => Persona::withCount('mascotas')->get()->map(function ($user){
                 return [
                     'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'phone' => $user->phone,
-                    'edit_url' => route('vue.persona.edit', $user),
-                    'delete_url' => route('vue.persona.delete', $user),
+                    'properties' => [
+                        'nombre' => $user->name,
+                        'email' => $user->email,
+                        'telefono' => $user->phone,
+                        'numero_mascotas' => $user->mascotas_count
+                    ],
+                    'actions' => [
+                        'edit_url' => route('vue.persona.edit', ['persona' => $user]),
+                        'delete_url' => route('vue.persona.delete', ['persona' => $user])
+                    ],
                 ];
             })
         ]);
