@@ -3,6 +3,7 @@
 use App\Http\Controllers\FullStack\MascotasController;
 use App\Http\Controllers\FullStack\PersonasController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Vue\VueMascotaController;
 use App\Http\Controllers\Vue\VuePersonaController;
 use Faker\Provider\Person;
 use Illuminate\Foundation\Application;
@@ -50,5 +51,9 @@ Route::prefix('/vue')->group(function(){
         Route::get('/modificar/{persona}', [VuePersonaController::class,'edit'])->name('vue.persona.edit');
         Route::put('/modificar/{persona}', [VuePersonaController::class,'update'])->name('vue.persona.update');
         Route::get('/eliminar/{persona}', [VuePersonaController::class,'delete'])->name('vue.persona.delete');
+    });
+
+    Route::prefix('/mascota')->group(function(){
+        Route::get('/', [VueMascotaController::class, 'index'])->name('vue.mascotas');
     });
 });

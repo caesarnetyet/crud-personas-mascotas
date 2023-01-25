@@ -18,15 +18,23 @@ interface Props {
 }
 const { clientes } = defineProps<Props>()
 
+
+console.log("Me renderice")
 </script>
 <template>
-    <div class="md:grid grid-cols-8 grid-rows-6">
-        <Link class=" text-xl" href="/">Hello World</Link>
-        <header class="col-start-4 text-center col-span-2 p-3">
-            <h1 class="text-4xl font-bold">Welcome!</h1>
-        </header>
-    <TableLayout class="col-start-1" :models="clientes"/>
-    <div class="bg-slate-600 col-start-6 col-span-2 row-span-4"> </div>
+    <div class="flex h-screen">
+        <aside class="bg-gray-800 flex flex-col text-center pt-10 text-3xl md:w-1/4 w-1/2 lg:w-[15%] text-white">
 
+           <Link class=" p-3  hover:border-b-2  border-white" :href="route('vue')">Clientes</Link>
+              <Link class="p-3 hover:border-b-2 border-white" :href="route('vue.mascotas')">Mascotas</Link>
+        </aside>
+        <div class="p-3 bg-gray-200 shadow-lg flex-1">
+            <div class="h-[50vh]">
+                <TableLayout :models="clientes"/>
+            </div>
+            <div>
+                Hello
+            </div>
+        </div>
     </div>
 </template>

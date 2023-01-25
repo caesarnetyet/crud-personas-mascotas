@@ -12,6 +12,8 @@ interface Model  {
 
 const {models} = defineProps<{ models: Model[] }>();
 
+console.log("me renderice tambien")
+
 const headers = computed(() => {
     if (models.length > 0) {
         const properties = Object.keys(models[0].properties);
@@ -25,16 +27,16 @@ const headers = computed(() => {
 
 <template>
 
-    <div class="relative shadow-md sm:rounded-lg">
+    <div class="drop-shadow-md relative h-full bg-scroll shadow-md sm:rounded-lg">
         <table class="text-center w-full text-sm text-left text-gray-500 dark:text-white" >
-            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-white">
+            <thead class="text-md text-gray-800 uppercase bg-gray-50 dark:bg-gray-800 dark:text-white">
             <tr>
                 <th class="px-6 py-3" v-for="header in headers">
                     {{header}}
                 </th>
             </tr>
             </thead>
-            <tbody>
+            <tbody >
             <tr class="bg-white border-b dark:bg-gray-600 dark:border-gray-600 hover:bg-gray-700 dark:hover:bg-gray-700" v-for="model in models">
                 <td class="px-6 py-4">{{ model.id }}</td>
                 <td class="px-6 py-4" v-for="property in model.properties">

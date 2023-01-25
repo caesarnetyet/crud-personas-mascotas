@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Mascota extends Model
 {
+    use HasFactory;
+
+    protected $table = 'mascotas';
 
     protected $fillable = [
         'nombre',
@@ -15,8 +18,7 @@ class Mascota extends Model
         'sexo',
         'persona_id',
     ];
-    use HasFactory;
-    
+
     public function persona()
     {
         return $this->belongsTo(Persona::class);
