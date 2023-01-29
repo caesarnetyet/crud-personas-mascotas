@@ -3,7 +3,7 @@ import {computed, reactive, defineProps} from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 
 
-type actions = {'edit_url': string, 'delete_url': string, 'show_pets'?: string};
+type actions = {'edit_url': string, 'delete_url': string};
 interface Model  {
     id: number;
     properties: object[];
@@ -42,9 +42,9 @@ const headers = computed(() => {
                 <td class="px-6 py-4" v-for="property in model.properties">
                     {{property}}
                 </td>
-                <td>
-                    <Link :href="model.actions.edit_url" class="font-bold text-blue-500  px-3 py-2 hover:underline hover:text-blue-600">Edit</Link>
-                    <Link :href="model.actions.delete_url" class="font-bold text-red-500 px-3 py-2 hover:underline hover:text-red-600">Delete</Link>
+                <td class="text-xl">
+                    <Link :href="model.actions.edit_url" class="font-bold text-green-500  px-3 py-2 hover:underline hover:text-green-600">Editar</Link>
+                    <Link :href="model.actions.delete_url" class="font-bold text-red-500 px-3 py-2 hover:underline hover:text-red-600">Eliminar</Link>
                 </td>
             </tr>
             </tbody>

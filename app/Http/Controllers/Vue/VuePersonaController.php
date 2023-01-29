@@ -30,4 +30,7 @@ class VuePersonaController extends Controller
             })
         ]);
     }
+    function create(){
+        return Inertia::render('Cliente/Create');
+    }
 }

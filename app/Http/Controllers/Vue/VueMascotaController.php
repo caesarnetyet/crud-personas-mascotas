@@ -21,8 +21,8 @@ class VueMascotaController extends Controller
                         'dueño' => $mascota->persona->name,
                     ],
                     'actions' => [
-                        'edit_url' => route('vue.persona.edit', ['persona' => $user]),
-                        'delete_url' => route('vue.persona.delete', ['persona' => $user])
+                        'edit_url' => route('vue.mascotas.edit', ['mascota' => $mascota]),
+                        'delete_url' => route('vue.mascotas.delete', ['mascota' => $mascota])
                     ],
                 ];
             })

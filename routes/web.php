@@ -55,5 +55,11 @@ Route::prefix('/vue')->group(function(){
 
     Route::prefix('/mascota')->group(function(){
         Route::get('/', [VueMascotaController::class, 'index'])->name('vue.mascotas');
+        Route::get('/agregar', [VueMascotaController::class, 'create'])->name('vue.mascotas.create');
+        Route::post('/agregar', [VueMascotaController::class, 'store'])->name('vue.mascotas.store');
+        Route::get('/modificar/{mascota}', [VueMascotaController::class, 'edit'])->name('vue.mascotas.edit');
+        Route::put('/modificar/{mascota}', [VueMascotaController::class, 'update'])->name('vue.mascotas.update');
+        Route::get('/eliminar/{mascota}', [VueMascotaController::class, 'delete'])->name('vue.mascotas.delete');
+
     });
 });
