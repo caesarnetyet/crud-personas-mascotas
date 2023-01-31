@@ -50,7 +50,7 @@ Route::prefix('/vue')->group(function(){
         Route::post('/agregar', [VuePersonaController::class,'store'])->name('vue.persona.store');
         Route::get('/modificar/{persona}', [VuePersonaController::class,'edit'])->name('vue.persona.edit');
         Route::put('/modificar/{persona}', [VuePersonaController::class,'update'])->name('vue.persona.update');
-        Route::get('/eliminar/{persona}', [VuePersonaController::class,'delete'])->name('vue.persona.delete');
+        Route::delete('/eliminar/{persona}', [VuePersonaController::class,'delete'])->name('vue.persona.delete');
     });
 
     Route::prefix('/mascota')->group(function(){
@@ -59,7 +59,7 @@ Route::prefix('/vue')->group(function(){
         Route::post('/agregar', [VueMascotaController::class, 'store'])->name('vue.mascotas.store');
         Route::get('/modificar/{mascota}', [VueMascotaController::class, 'edit'])->name('vue.mascotas.edit');
         Route::put('/modificar/{mascota}', [VueMascotaController::class, 'update'])->name('vue.mascotas.update');
-        Route::get('/eliminar/{mascota}', [VueMascotaController::class, 'delete'])->name('vue.mascotas.delete');
+        Route::delete('/eliminar/{mascota}', [VueMascotaController::class, 'delete'])->name('vue.mascotas.delete');
 
     });
 });

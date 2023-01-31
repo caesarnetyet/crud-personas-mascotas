@@ -1,5 +1,5 @@
 <template>
-    <h1>Formulario persona</h1>
+    <h1>Editando a {{mascota.name}}</h1>
 
     <form class="p-3 bg-slate-500 shadow-2xl border-2 border-slate-700 w-1/4 ml-[27.5%]" @submit.prevent="submit">
         <div class="flex flex-col px-3">
@@ -25,14 +25,6 @@
             </select>
             <div class="text-md text-red-600" v-if="form.errors.sex">{{form.errors.sex}}</div>
         </div>
-        <input  v-if="persona" hidden>
-        <div class="flex flex-col px-3" v-else>
-            <label class="text-white font-xl font-bold" for="persona_id">Dueño</label>
-            <select  v-model="form.persona_id">
-                <option v-for="persona in personas" :key="persona.id" :value="persona.id">{{persona.name}}</option>
-            </select>
-            <div class="text-md text-red-600" v-if="form.errors.persona_id">{{form.errors.persona_id}}</div>
-        </div>
         <button class="p-3 bg-green-600 mx-auto block mt-3 text-white font-bold rounded-md hover:bg-green-700" type="submit" :disabled="form.processing">Crear mascota</button>
     </form>
 </template>
@@ -47,18 +39,15 @@ const form = useForm({
     breed: null,
     color: null,
     sex: null,
-    persona_id: persona ? persona.id : null
 })
-console.log(persona)
-console.log(form.persona_id)
-const {persona, personas} = defineProps({
-    personas: Array,
-    persona: Object
+
+const {mascota} = defineProps({
+    mascota: Object
 })
 
 
 const submit = () => {
-    form.post(route('vue.mascotas.store'))
+    form.put('/vue/mascota/modificar/'+mascota.id)
 }
 
 </script>

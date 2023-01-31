@@ -20,7 +20,8 @@
                 </td>
                 <td class="text-xl">
                     <Link :href="model.actions.edit_url" class="font-bold text-green-500  px-3 py-2 hover:underline hover:text-green-600">Editar</Link>
-                    <Link :href="model.actions.delete_url" class="font-bold text-red-500 px-3 py-2 hover:underline hover:text-red-600">Eliminar</Link>
+                    <button class="text-red-500 font-bold" @click="safeDelete(model.actions.delete_url)">Eliminar</button>
+
                 </td>
             </tr>
             </tbody>
@@ -33,6 +34,7 @@ import {computed, watch, defineProps, ref} from 'vue'
 import { Link } from '@inertiajs/inertia-vue3'
 import {Inertia} from "@inertiajs/inertia";
 import debounce from "lodash/debounce";
+import MyModal from "@/Components/MyModal.vue";
 
 type actions = {'edit_url': string, 'delete_url': string};
 interface Model  {
@@ -54,6 +56,20 @@ const headers = computed(() => {
 })
 
 let search = ref('')
+
+let showModal = ref(false)
+
+const safeDelete = (url: string) => {
+    if (confirm("Seguro que quieres eliminar este registro?")) {
+        Inertia.delete(url, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true});
+    }
+
+}
+
+console.log(showModal.value)
 
 watch(search,  debounce(value => {
     Inertia.get(url_route, {search: value}, {

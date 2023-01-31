@@ -31,12 +31,15 @@ class VueMascotaController extends Controller
                     ],
                 ];
             })
-                , 'current_url' => request()->fullUrl()]
+                , 'current_url' => request()->fullUrl()
+                , 'clientes' => Persona::all(['id', 'name']), 'success' => request('success')]
         );
     }
-    function create(){
+    function create(Request $request){
         $personas = Persona::all(['id', 'name']);
-        return Inertia::render('Mascotas/Create', ['personas' => $personas]);
+        $persona = persona::find($request->cliente_id, ['id', 'name']);
+
+        return Inertia::render('Mascotas/Create', ['personas' => $personas, 'persona' => $persona]);
     }
 
     function store(){
@@ -50,4 +53,28 @@ class VueMascotaController extends Controller
         Mascota::create($data);
         return redirect()->route('vue.mascotas', ['success' => 'Mascota agregada correctamente']);
     }
+
+    function delete(Mascota $mascota){
+        $mascota = Mascota::find($mascota->id);
+        $mascota->delete();
+        return redirect()->route('vue.mascotas', ['success' => 'Mascota eliminada correctamente']);
+    }
+
+    function edit(Mascota $mascota){
+        $mascota = Mascota::find($mascota->id);
+
+        return Inertia::render('Mascotas/Edit', ['mascota' => $mascota]);
+    }
+    function update(Mascota $mascota){
+        $mascota = Mascota::find($mascota->id);
+        $data = request()->validate([
+            'name'=> 'required',
+            'breed' => 'required',
+            'color' => 'required',
+            'sex'=> 'required',
+        ]);
+        $mascota->update($data);
+        return redirect()->route('vue.mascotas', ['success' => 'Mascota actualizada correctamente']);
+    }
+
 }

@@ -1,5 +1,5 @@
 <template>
-    <h1>Formulario persona</h1>
+    <h1>Editando a {{persona.name}}</h1>
 
     <form class="p-3 bg-slate-500 shadow-2xl border-2 border-slate-700 w-1/4 ml-[27.5%]" @submit.prevent="submit">
         <div class="flex flex-col px-3">
@@ -23,6 +23,10 @@
 <script setup lang="ts">
 import {useForm} from "@inertiajs/inertia-vue3";
 
+const {persona} = defineProps({
+    persona: Object
+})
+
 const form = useForm({
     name: null,
     phone: null,
@@ -30,7 +34,7 @@ const form = useForm({
 })
 
 const submit = () => {
-    form.post(route('vue.persona.store'))
+    form.put(route('vue.persona.update', persona.id))
 }
 
 </script>

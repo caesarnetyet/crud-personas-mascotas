@@ -32,12 +32,17 @@ class VuePersonaController extends Controller
                     ],
                 ];
             })
-        , 'current_url' => request()->fullUrl()]);
+        , 'current_url' => request()->fullUrl(), 'success' => request('success')]);
     }
     function create(){
         return Inertia::render('Cliente/Create');
     }
 
+    function delete(Persona $persona){
+        $persona = Persona::find($persona->id);
+        $persona->delete();
+        return redirect()->route('vue', ['success' => 'Cliente eliminado correctamente']);
+    }
     function store(Request $request){
         $data = $request->validate([
             'name' => 'required',
@@ -46,5 +51,21 @@ class VuePersonaController extends Controller
         ]);
         Persona::create($data);
         return redirect()->route('vue', ['success' => 'Cliente agregado correctamente']);
+    }
+
+    function edit(Persona $persona){
+        $persona = Persona::find($persona->id);
+        return Inertia::render('Cliente/Edit', ['persona' => $persona]);
+    }
+
+    function update(Persona $persona){
+        $persona = Persona::find($persona->id);
+        $data = request()->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required'
+        ]);
+        $persona->update($data);
+        return redirect()->route('vue', ['success' => 'Cliente actualizado correctamente']);
     }
 }
