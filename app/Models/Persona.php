@@ -10,9 +10,9 @@ class Persona extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
+        'name',
         'email',
-        'telefono',
+        'phone',
     ];
 
     public function mascotas()

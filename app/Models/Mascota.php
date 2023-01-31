@@ -12,10 +12,10 @@ class Mascota extends Model
     protected $table = 'mascotas';
 
     protected $fillable = [
-        'nombre',
-        'raza',
+        'name',
+        'breed',
         'color',
-        'sexo',
+        'sex',
         'persona_id',
     ];
 

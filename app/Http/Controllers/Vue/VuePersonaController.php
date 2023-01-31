@@ -13,7 +13,11 @@ class VuePersonaController extends Controller
     //
     function index(){
         return Inertia::render('Bienvenido', [
-            'clientes' => Persona::withCount('mascotas')->get()->map(function ($user){
+            'clientes' => Persona::query()
+                            ->when(request('search'), function ($query){
+                                $query->where('name', 'like', '%'.request('search').'%');
+                            })
+                            ->withCount('mascotas')->get()->map(function ($user){
                 return [
                     'id' => $user->id,
                     'properties' => [
@@ -28,9 +32,19 @@ class VuePersonaController extends Controller
                     ],
                 ];
             })
-        ]);
+        , 'current_url' => request()->fullUrl()]);
     }
     function create(){
         return Inertia::render('Cliente/Create');
+    }
+
+    function store(Request $request){
+        $data = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email',
+            'phone' => 'required'
+        ]);
+        Persona::create($data);
+        return redirect()->route('vue', ['success' => 'Cliente agregado correctamente']);
     }
 }
